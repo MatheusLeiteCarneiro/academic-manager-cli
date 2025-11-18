@@ -1,0 +1,61 @@
+# ==================================
+# Java & Build Tool Files
+# ==================================
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Maven build directory
+target/
+
+# Gradle build directories
+build/
+.gradle/
+
+
+# ==================================
+# IntelliJ IDEA
+# ==================================
+# Workspace configuration folder
+.idea/
+
+# Module files
+*.iml
+
+# Workspace files
+*.iws
+
+# Default compiled output folder
+out/
+
+
+# ==================================
+# Eclipse
+# ==================================
+# Settings folder
+.settings/
+
+# Configuration files
+.classpath
+.project
+
+# Default compiled output folder
+bin/
+
+
+# ==================================
+# Operating System (OS) Files
+# ==================================
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
