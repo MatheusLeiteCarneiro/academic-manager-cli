@@ -2,7 +2,7 @@ package model.services;
 
 import model.entities.Course;
 import model.entities.Student;
-import model.exceptions.EnrolledException;
+import model.exceptions.EnrollmentException;
 import model.exceptions.NonExistentIdException;
 
 import java.util.HashSet;
@@ -48,10 +48,10 @@ public class AcademicService {
         return course;
     }
 
-    private void verifyIfStudentIsInCourse(Student student, Course course) throws EnrolledException {
+    private void verifyIfStudentIsInCourse(Student student, Course course) throws EnrollmentException {
        Set<Course> courses = enrollments.get(student);
        if(!courses.contains(course)){
-           throw new EnrolledException("This student is not enrolled to this course");
+           throw new EnrollmentException("This student is not enrolled to this course");
        }
     }
 
@@ -84,7 +84,7 @@ public class AcademicService {
         return studentsOnCourse.collect(Collectors.toList());
     }
 
-    public void removeAStudentFromACourse(Integer studentId,Integer courseId) throws NonExistentIdException, EnrolledException {
+    public void removeAStudentFromACourse(Integer studentId,Integer courseId) throws NonExistentIdException, EnrollmentException {
         Student student = findAndVerifyStudentId(studentId);
         Course course = findAndVerifyCourseId(courseId);
         verifyIfStudentIsInCourse(student,course);
