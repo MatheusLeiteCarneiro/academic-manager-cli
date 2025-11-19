@@ -59,9 +59,11 @@ public class Program {
                         handleShowAllCourses(sc, academicService);
                         break;
                     case 0:
-                        System.out.println("Operations finished!");
+                        System.out.print("--Operations finished!");
                         break;
                     default:
+                        System.out.println("--Invalid operation!");
+                        pressEnterToContinue(sc);
                         break;
                 }
             }
@@ -103,7 +105,7 @@ public class Program {
         System.out.println("\n-- System --");
         System.out.println("0. Exit");
 
-        System.out.print("\nChoose an option: ");
+        System.out.print("\nChoose an operation: ");
     }
 
     private static Student pickStudentById(Scanner sc, AcademicService academicService) throws NonExistentIdException {
