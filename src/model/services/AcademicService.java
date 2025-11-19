@@ -32,7 +32,7 @@ public class AcademicService {
         return enrollments;
     }
 
-    public Student findAndVerifyStudentId(Integer studentId) throws NonExistentIdException {
+    private Student findAndVerifyStudentId(Integer studentId) throws NonExistentIdException {
         Student student = studentsMap.get(studentId);
         if(student == null ){
             throw new NonExistentIdException("This student ID does not exist");
@@ -40,7 +40,7 @@ public class AcademicService {
         return student;
     }
 
-    public Course findAndVerifyCourseId(Integer courseId) throws NonExistentIdException {
+    private Course findAndVerifyCourseId(Integer courseId) throws NonExistentIdException {
         Course course = coursesMap.get(courseId);
         if(course == null){
             throw new NonExistentIdException("This course ID does not exist");
@@ -48,7 +48,7 @@ public class AcademicService {
         return course;
     }
 
-    public void verifyIfStudentIsInCourse(Student student, Course course) throws EnrolledException {
+    private void verifyIfStudentIsInCourse(Student student, Course course) throws EnrolledException {
        Set<Course> courses = enrollments.get(student);
        if(!courses.contains(course)){
            throw new EnrolledException("This student is not enrolled to this course");
