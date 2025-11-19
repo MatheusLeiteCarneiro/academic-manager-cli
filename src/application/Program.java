@@ -44,6 +44,7 @@ public class Program {
                         enrollStudentInCourse(sc, academicService);
                         break;
                     case 6:
+                        removeStudentFromACourse(sc, academicService);
                         break;
                     case 7:
                         break;
@@ -59,7 +60,7 @@ public class Program {
                         break;
                 }
             }
-            catch (NonExistentIdException e){
+            catch (NonExistentIdException | EnrollmentException e){
                 System.out.println(e.getMessage());
                 pressEnterToContinue(sc);
             }
@@ -182,6 +183,18 @@ public class Program {
         Course course = pickCourseById(sc, academicService);
         academicService.enrollStudent(student, course);
         System.out.println("Student successfully enrolled in course!");
+        pressEnterToContinue(sc);
+    }
+
+    private static void removeStudentFromACourse(Scanner sc, AcademicService academicService) throws NonExistentIdException, EnrollmentException {
+        Student student = pickStudentById(sc, academicService);
+        Course course = pickCourseById(sc, academicService);
+        academicService.verifyIfStudentIsInCourse(student, course);
+        boolean confirmation = confirm(sc);
+        if(confirmation){
+            academicService.removeAStudentFromACourse(student, course);
+            System.out.println("Student successfully removed from the Course!");
+        }
         pressEnterToContinue(sc);
     }
 }
