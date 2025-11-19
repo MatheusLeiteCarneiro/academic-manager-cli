@@ -39,5 +39,11 @@ public class Program {
         System.out.print("\nChoose an option: ");
     }
 
+    private static void askStudentId(){
+        System.out.print("Type the student ID: ");
+    }
 
+    private static void askCourseId(){
+        System.out.print("Type the course ID: ");
+    }
 }
