@@ -25,7 +25,7 @@ public class Program {
             operation = sc.nextInt();
             sc.nextLine();
             System.out.println();
-
+            try {
 
                 switch (operation) {
                     case 1:
@@ -35,7 +35,7 @@ public class Program {
                         handleAddCourse(sc, academicService);
                         break;
                     case 3:
-
+                        handleDeleteStudent(sc, academicService);
                         break;
                     case 4:
                         break;
@@ -56,8 +56,11 @@ public class Program {
                     default:
                         break;
                 }
-
-
+            }
+            catch (NonExistentIdException e){
+                System.out.println(e.getMessage());
+                pressEnterToContinue(sc);
+            }
         }
 
         sc.close();
@@ -93,8 +96,7 @@ public class Program {
         String studentName = sc.nextLine();
         Student newStudent = new Student(studentIdCount, studentName);
         academicService.addStudent(newStudent);
-        System.out.println(newStudent);
-        System.out.println("Student successfully registered!");
+        System.out.println("Student: "+ newStudent +" successfully registered!");
         studentIdCount ++;
         pressEnterToContinue(sc);
     }
@@ -105,9 +107,22 @@ public class Program {
         String courseName = sc.nextLine();
         Course newCourse = new Course(courseIdCount, courseName);
         academicService.addCourse(newCourse);
-        System.out.println(newCourse);
-        System.out.println("Course successfully registered!");
+        System.out.println("Course: " + newCourse + " successfully registered!");
         courseIdCount ++;
+        pressEnterToContinue(sc);
+    }
+
+    private static void handleDeleteStudent(Scanner sc, AcademicService academicService) throws NonExistentIdException {
+        Student student = pickStudentById(sc, academicService);
+        System.out.println("Delete student:" + student);
+        int confirmation = confirm(sc);
+        if(confirmation == 1){
+            academicService.deleteAStudent(student);
+            System.out.println("Student successfully deleted!");
+        }
+        else{
+            System.out.println("Operation canceled!");
+        }
         pressEnterToContinue(sc);
     }
 
@@ -116,8 +131,11 @@ public class Program {
         sc.nextLine();
     }
 
-    private static void askStudentId(){
+    private static Student pickStudentById(Scanner sc, AcademicService academicService) throws NonExistentIdException {
         System.out.print("Type the student ID: ");
+        int studentId = sc.nextInt();
+        sc.nextLine();
+        return academicService.findAndVerifyStudentId(studentId);
     }
 
     private static void askCourseId(){
@@ -130,9 +148,10 @@ public class Program {
             System.out.print("--Press 1-to confirm/0-to cancel: ");
             confirmation = sc.nextInt();
             if(confirmation == 0 || confirmation == 1){
+                sc.nextLine();
                 return confirmation;
             }
-            System.out.println("Invalid digit");
+            System.out.println("--Invalid digit");
         }
     }
 }
