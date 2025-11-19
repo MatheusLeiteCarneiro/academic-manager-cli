@@ -1,7 +1,7 @@
 package model.entities;
 
 public class Student {
-    private int id;
+    private final int id;
     private String name;
 
     public Student(int id, String name) {
