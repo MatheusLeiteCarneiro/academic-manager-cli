@@ -108,6 +108,11 @@ public class AcademicService {
         return students;
     }
 
+    public List<Course> getAllCourses(){
+        List<Course> courses = coursesMap.values().stream().collect(Collectors.toList());
+        return courses;
+    }
+
 
 
 
