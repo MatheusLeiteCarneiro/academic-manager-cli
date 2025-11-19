@@ -103,6 +103,11 @@ public class AcademicService {
         enrollments.keySet().forEach(student -> enrollments.get(student).remove(course));
     }
 
+    public List<Student> getAllStudents(){
+        List<Student> students = studentsMap.values().stream().collect(Collectors.toList());
+        return students;
+    }
+
 
 
 
