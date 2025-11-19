@@ -1,5 +1,7 @@
 package model.entities;
 
+import java.util.Objects;
+
 public class Course {
     private final int id;
     private String name;
@@ -20,8 +22,21 @@ public class Course {
     public void setName(String name) {
         this.name = name;
     }
+
     @Override
     public String toString() {
         return "ID-" + getId() + "| " + getName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return getId() == course.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
     }
 }
