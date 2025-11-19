@@ -138,8 +138,11 @@ public class Program {
         return academicService.findAndVerifyStudentId(studentId);
     }
 
-    private static void askCourseId(){
+    private static Course pickCourseById(Scanner sc, AcademicService academicService) throws NonExistentIdException{
         System.out.print("Type the course ID: ");
+        int courseId = sc.nextInt();
+        sc.nextLine();
+        return academicService.findAndVerifyCourseId(courseId);
     }
 
     private static int confirm(Scanner sc){
