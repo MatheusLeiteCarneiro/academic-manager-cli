@@ -76,6 +76,12 @@ public class AcademicService {
         return studentsOnCourse.collect(Collectors.toList());
     }
 
+    public void removeAStudentFromACourse(Integer studentId,Integer courseId) throws NonExistentId {
+        Student student = findAndVerifyStudentId(studentId);
+        Course course = findAndVerifyCourseId(courseId);
+        enrollments.get(student).remove(course);
+    }
+
     public void deleteAStudent(Integer studentId) throws NonExistentId {
         Student student = findAndVerifyStudentId(studentId);
         studentsMap.remove(studentId);
@@ -87,6 +93,8 @@ public class AcademicService {
         coursesMap.remove(courseId);
         enrollments.keySet().forEach(student -> enrollments.get(student).remove(course));
     }
+
+
 
 
 
