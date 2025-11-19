@@ -6,8 +6,11 @@ import model.exceptions.EnrollmentException;
 import model.exceptions.NonExistentIdException;
 import model.services.AcademicService;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Program {
     private static int studentIdCount = 1;
@@ -41,12 +44,13 @@ public class Program {
                         handleDeleteCourse(sc, academicService);
                         break;
                     case 5:
-                        enrollStudentInCourse(sc, academicService);
+                        handleEnrollStudentInCourse(sc, academicService);
                         break;
                     case 6:
-                        removeStudentFromACourse(sc, academicService);
+                        handleRemoveStudentFromACourse(sc, academicService);
                         break;
                     case 7:
+                        handleShowAllCoursesFromStudent(sc, academicService);
                         break;
                     case 8:
                         break;
@@ -178,7 +182,7 @@ public class Program {
         pressEnterToContinue(sc);
     }
 
-    private static void enrollStudentInCourse(Scanner sc, AcademicService academicService) throws NonExistentIdException, EnrollmentException {
+    private static void handleEnrollStudentInCourse(Scanner sc, AcademicService academicService) throws NonExistentIdException, EnrollmentException {
         Student student = pickStudentById(sc, academicService);
         Course course = pickCourseById(sc, academicService);
         academicService.verifyIfStudentIsNotInCourse(student, course);
@@ -187,7 +191,7 @@ public class Program {
         pressEnterToContinue(sc);
     }
 
-    private static void removeStudentFromACourse(Scanner sc, AcademicService academicService) throws NonExistentIdException, EnrollmentException {
+    private static void handleRemoveStudentFromACourse(Scanner sc, AcademicService academicService) throws NonExistentIdException, EnrollmentException {
         Student student = pickStudentById(sc, academicService);
         Course course = pickCourseById(sc, academicService);
         academicService.verifyIfStudentIsInCourse(student, course);
@@ -196,6 +200,14 @@ public class Program {
             academicService.removeAStudentFromACourse(student, course);
             System.out.println("Student successfully removed from the Course!");
         }
+        pressEnterToContinue(sc);
+    }
+
+    private static void handleShowAllCoursesFromStudent(Scanner sc, AcademicService academicService) throws NonExistentIdException {
+        Student student = pickStudentById(sc, academicService);
+        List<Course> courses = academicService.getCoursesFromAStudent(student).stream().sorted(Comparator.comparing(Course::getId)).collect(Collectors.toList());
+        System.out.println("Course list for Student " + student.getName() + ": ");
+        courses.forEach(System.out::println);
         pressEnterToContinue(sc);
     }
 }
