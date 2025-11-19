@@ -1,6 +1,9 @@
 package application;
 
+import model.entities.Course;
 import model.entities.Student;
+import model.exceptions.EnrollmentException;
+import model.exceptions.NonExistentIdException;
 import model.services.AcademicService;
 
 import java.util.Locale;
@@ -17,40 +20,43 @@ public class Program {
         System.out.println("Welcome to the academic manager system!");
 
         int operation = -1;
-        while (operation != 0){
+        while (operation != 0) {
             printMenu();
             operation = sc.nextInt();
             sc.nextLine();
-            pressEnterToContinue(sc);
             System.out.println();
 
-            switch (operation){
-                case 1:
-                    handleAddStudent(sc, academicService);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-                case 10:
-                    break;
-                case 0:
-                    break;
-                default:
-                    break;
-            }
+
+                switch (operation) {
+                    case 1:
+                        handleAddStudent(sc, academicService);
+                        break;
+                    case 2:
+                        handleAddCourse(sc, academicService);
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                    case 10:
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        break;
+                }
+
 
         }
 
@@ -81,6 +87,30 @@ public class Program {
         System.out.print("\nChoose an option: ");
     }
 
+    private static void handleAddStudent(Scanner sc, AcademicService academicService){
+        System.out.println("Student data:");
+        System.out.print("Full name: ");
+        String studentName = sc.nextLine();
+        Student newStudent = new Student(studentIdCount, studentName);
+        academicService.addStudent(newStudent);
+        System.out.println(newStudent);
+        System.out.println("Student successfully registered!");
+        studentIdCount ++;
+        pressEnterToContinue(sc);
+    }
+
+    private static void handleAddCourse(Scanner sc, AcademicService academicService){
+        System.out.println("Course data:");
+        System.out.print("Name: ");
+        String courseName = sc.nextLine();
+        Course newCourse = new Course(courseIdCount, courseName);
+        academicService.addCourse(newCourse);
+        System.out.println(newCourse);
+        System.out.println("Course successfully registered!");
+        courseIdCount ++;
+        pressEnterToContinue(sc);
+    }
+
     private static void pressEnterToContinue(Scanner sc){
         System.out.print("--Press ENTER to continue");
         sc.nextLine();
@@ -94,15 +124,15 @@ public class Program {
         System.out.print("Type the course ID: ");
     }
 
-    private static void handleAddStudent(Scanner sc, AcademicService academicService){
-        System.out.println("Student data:");
-        System.out.print("Full name: ");
-        String studentName = sc.nextLine();
-        Student newStudent = new Student(studentIdCount, studentName);
-        academicService.addStudent(newStudent);
-        System.out.println(newStudent);
-        System.out.println("Student successfully registered!");
-        studentIdCount ++;
-        pressEnterToContinue(sc);
+    private static int confirm(Scanner sc){
+        int confirmation = -1;
+        while (true) {
+            System.out.print("--Press 1-to confirm/0-to cancel: ");
+            confirmation = sc.nextInt();
+            if(confirmation == 0 || confirmation == 1){
+                return confirmation;
+            }
+            System.out.println("Invalid digit");
+        }
     }
 }
