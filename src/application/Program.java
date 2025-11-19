@@ -2,6 +2,7 @@ package application;
 
 import model.entities.Course;
 import model.entities.Student;
+import model.exceptions.BlankNameException;
 import model.exceptions.EnrollmentException;
 import model.exceptions.NonExistentIdException;
 import model.services.AcademicService;
@@ -66,12 +67,10 @@ public class Program {
                         pressEnterToContinue(sc);
                         break;
                 }
-            }
-            catch (NonExistentIdException | EnrollmentException e){
+            } catch (NonExistentIdException | EnrollmentException | BlankNameException e) {
                 System.out.println(e.getMessage());
                 pressEnterToContinue(sc);
-            }
-            catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("Invalid digit, type a number!");
                 sc.nextLine();
                 operation = -1;
@@ -83,7 +82,7 @@ public class Program {
     }
 
 
-    private static void printMenu(){
+    private static void printMenu() {
         System.out.println("\n--- Operations Menu ---\n");
 
         System.out.println("-- Records Managements --");
@@ -108,6 +107,12 @@ public class Program {
         System.out.print("\nChoose an operation: ");
     }
 
+    private static void verifyBlankName(String name) throws BlankNameException {
+        if (name.isBlank()) {
+            throw new BlankNameException("The name can't be blank");
+        }
+    }
+
     private static Student pickStudentById(Scanner sc, AcademicService academicService) throws NonExistentIdException {
         System.out.print("Type the student ID: ");
         int studentId = sc.nextInt();
@@ -115,54 +120,56 @@ public class Program {
         return academicService.findAndVerifyStudentId(studentId);
     }
 
-    private static Course pickCourseById(Scanner sc, AcademicService academicService) throws NonExistentIdException{
+    private static Course pickCourseById(Scanner sc, AcademicService academicService) throws NonExistentIdException {
         System.out.print("Type the course ID: ");
         int courseId = sc.nextInt();
         sc.nextLine();
         return academicService.findAndVerifyCourseId(courseId);
     }
 
-    private static boolean confirm(Scanner sc){
+    private static boolean confirm(Scanner sc) {
         int confirmationNumber = -1;
         while (true) {
             System.out.print("--Press 1-to confirm/0-to cancel: ");
             confirmationNumber = sc.nextInt();
             sc.nextLine();
-            if(confirmationNumber == 0){
+            if (confirmationNumber == 0) {
                 System.out.println("Operation canceled!");
                 return false;
             }
-            if(confirmationNumber == 1){
+            if (confirmationNumber == 1) {
                 return true;
             }
             System.out.println("--Invalid digit");
         }
     }
 
-    private static void pressEnterToContinue(Scanner sc){
+    private static void pressEnterToContinue(Scanner sc) {
         System.out.print("--Press ENTER to continue");
         sc.nextLine();
     }
 
-    private static void handleAddStudent(Scanner sc, AcademicService academicService){
+    private static void handleAddStudent(Scanner sc, AcademicService academicService) throws BlankNameException {
         System.out.println("Student data:");
         System.out.print("Full name: ");
         String studentName = sc.nextLine();
+        verifyBlankName(studentName);
         Student newStudent = new Student(studentIdCount, studentName);
         academicService.addStudent(newStudent);
-        System.out.println("Student: "+ newStudent +" successfully registered!");
-        studentIdCount ++;
+        System.out.println("Student: " + newStudent + " successfully registered!");
+        studentIdCount++;
         pressEnterToContinue(sc);
     }
 
-    private static void handleAddCourse(Scanner sc, AcademicService academicService){
+    private static void handleAddCourse(Scanner sc, AcademicService academicService) throws BlankNameException {
         System.out.println("Course data:");
         System.out.print("Name: ");
         String courseName = sc.nextLine();
+        verifyBlankName(courseName);
         Course newCourse = new Course(courseIdCount, courseName);
         academicService.addCourse(newCourse);
         System.out.println("Course: " + newCourse + " successfully registered!");
-        courseIdCount ++;
+        courseIdCount++;
         pressEnterToContinue(sc);
     }
 
@@ -170,7 +177,7 @@ public class Program {
         Student student = pickStudentById(sc, academicService);
         System.out.println("Delete student:" + student);
         boolean confirmation = confirm(sc);
-        if(confirmation){
+        if (confirmation) {
             academicService.deleteAStudent(student);
             System.out.println("Student successfully deleted!");
         }
@@ -181,11 +188,10 @@ public class Program {
         Course course = pickCourseById(sc, academicService);
         System.out.println("Delete student:" + course);
         boolean confirmation = confirm(sc);
-        if(confirmation){
+        if (confirmation) {
             academicService.deleteACourse(course);
             System.out.println("Course successfully deleted!");
-        }
-        else{
+        } else {
             System.out.println("Operation canceled!");
         }
         pressEnterToContinue(sc);
@@ -196,7 +202,7 @@ public class Program {
         Course course = pickCourseById(sc, academicService);
         academicService.verifyIfStudentIsNotInCourse(student, course);
         academicService.enrollStudent(student, course);
-        System.out.println("Student "+ student.getName()+ " successfully enrolled in the course " + course.getName() + "!");
+        System.out.println("Student " + student.getName() + " successfully enrolled in the course " + course.getName() + "!");
         pressEnterToContinue(sc);
     }
 
@@ -205,7 +211,7 @@ public class Program {
         Course course = pickCourseById(sc, academicService);
         academicService.verifyIfStudentIsInCourse(student, course);
         boolean confirmation = confirm(sc);
-        if(confirmation){
+        if (confirmation) {
             academicService.removeAStudentFromACourse(student, course);
             System.out.println("Student" + student.getName() + " successfully removed from the course " + course.getName() + "!");
         }
