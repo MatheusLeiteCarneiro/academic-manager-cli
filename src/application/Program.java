@@ -108,14 +108,18 @@ public class Program {
         return academicService.findAndVerifyCourseId(courseId);
     }
 
-    private static int confirm(Scanner sc){
-        int confirmation = -1;
+    private static boolean confirm(Scanner sc){
+        int confirmationNumber = -1;
         while (true) {
             System.out.print("--Press 1-to confirm/0-to cancel: ");
-            confirmation = sc.nextInt();
-            if(confirmation == 0 || confirmation == 1){
-                sc.nextLine();
-                return confirmation;
+            confirmationNumber = sc.nextInt();
+            sc.nextLine();
+            if(confirmationNumber == 0){
+                System.out.println("Operation canceled!");
+                return false;
+            }
+            if(confirmationNumber == 1){
+                return true;
             }
             System.out.println("--Invalid digit");
         }
@@ -151,13 +155,10 @@ public class Program {
     private static void handleDeleteStudent(Scanner sc, AcademicService academicService) throws NonExistentIdException {
         Student student = pickStudentById(sc, academicService);
         System.out.println("Delete student:" + student);
-        int confirmation = confirm(sc);
-        if(confirmation == 1){
+        boolean confirmation = confirm(sc);
+        if(confirmation){
             academicService.deleteAStudent(student);
             System.out.println("Student successfully deleted!");
-        }
-        else{
-            System.out.println("Operation canceled!");
         }
         pressEnterToContinue(sc);
     }
@@ -165,8 +166,8 @@ public class Program {
     private static void handleDeleteCourse(Scanner sc, AcademicService academicService) throws NonExistentIdException {
         Course course = pickCourseById(sc, academicService);
         System.out.println("Delete student:" + course);
-        int confirmation = confirm(sc);
-        if(confirmation == 1){
+        boolean confirmation = confirm(sc);
+        if(confirmation){
             academicService.deleteACourse(course);
             System.out.println("Course successfully deleted!");
         }
