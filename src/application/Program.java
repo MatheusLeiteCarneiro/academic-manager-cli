@@ -21,6 +21,7 @@ public class Program {
             printMenu();
             operation = sc.nextInt();
             sc.nextLine();
+            pressEnterToContinue(sc);
             System.out.println();
 
             switch (operation){
@@ -80,6 +81,10 @@ public class Program {
         System.out.print("\nChoose an option: ");
     }
 
+    private static void pressEnterToContinue(Scanner sc){
+        System.out.print("--Press ENTER to continue");
+        sc.nextLine();
+    }
 
     private static void askStudentId(){
         System.out.print("Type the student ID: ");
@@ -98,5 +103,6 @@ public class Program {
         System.out.println(newStudent);
         System.out.println("Student successfully registered!");
         studentIdCount ++;
+        pressEnterToContinue(sc);
     }
 }
