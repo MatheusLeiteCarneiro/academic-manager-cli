@@ -56,6 +56,7 @@ public class Program {
                         handleShowAllStudents(sc, academicService);
                         break;
                     case 10:
+                        handleShowAllCourses(sc, academicService);
                         break;
                     case 0:
                         break;
@@ -228,6 +229,13 @@ public class Program {
         List<Student> students = academicService.getAllStudents().stream().sorted(Comparator.comparing(Student::getId)).collect(Collectors.toList());
         System.out.println("Students list:");
         students.forEach(System.out::println);
+        pressEnterToContinue(sc);
+    }
+
+    private static void handleShowAllCourses(Scanner sc, AcademicService academicService) throws NonExistentIdException {
+        List<Course> courses = academicService.getAllCourses().stream().sorted(Comparator.comparing(Course::getId)).collect(Collectors.toList());
+        System.out.println("Courses list:");
+        courses.forEach(System.out::println);
         pressEnterToContinue(sc);
     }
 }
