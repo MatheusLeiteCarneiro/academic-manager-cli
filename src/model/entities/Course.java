@@ -22,6 +22,6 @@ public class Course {
     }
     @Override
     public String toString() {
-        return "ID: " + getId() + "| " + getName();
+        return "ID-" + getId() + "| " + getName();
     }
 }
