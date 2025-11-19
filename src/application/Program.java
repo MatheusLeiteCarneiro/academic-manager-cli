@@ -196,7 +196,7 @@ public class Program {
         Course course = pickCourseById(sc, academicService);
         academicService.verifyIfStudentIsNotInCourse(student, course);
         academicService.enrollStudent(student, course);
-        System.out.println("Student successfully enrolled in course!");
+        System.out.println("Student "+ student.getName()+ " successfully enrolled in the course " + course.getName() + "!");
         pressEnterToContinue(sc);
     }
 
@@ -207,7 +207,7 @@ public class Program {
         boolean confirmation = confirm(sc);
         if(confirmation){
             academicService.removeAStudentFromACourse(student, course);
-            System.out.println("Student successfully removed from the Course!");
+            System.out.println("Student" + student.getName() + " successfully removed from the course " + course.getName() + "!");
         }
         pressEnterToContinue(sc);
     }
