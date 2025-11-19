@@ -10,26 +10,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AcademicService {
-    private Map<Integer, Student> studentsMap;
-    private Map<Integer, Course> coursesMap;
-    private Map<Student, Set<Course>> enrollments;
+    private final Map<Integer, Student> studentsMap;
+    private final Map<Integer, Course> coursesMap;
+    private final Map<Student, Set<Course>> enrollments;
 
     public AcademicService() {
         studentsMap = new HashMap<>();
         coursesMap = new HashMap<>();
         enrollments = new HashMap<>();
-    }
-
-    public Map<Integer, Student> getStudentsMap() {
-        return studentsMap;
-    }
-
-    public Map<Integer, Course> getCoursesMap() {
-        return coursesMap;
-    }
-
-    public Map<Student, Set<Course>> getEnrollments() {
-        return enrollments;
     }
 
     public Student findAndVerifyStudentId(Integer studentId) throws NonExistentIdException {
@@ -87,7 +75,7 @@ public class AcademicService {
         return studentsOnCourse.collect(Collectors.toList());
     }
 
-    public void removeAStudentFromACourse(Student student,Course course) throws EnrollmentException {
+    public void removeAStudentFromACourse(Student student,Course course){
         enrollments.get(student).remove(course);
     }
 
@@ -102,13 +90,13 @@ public class AcademicService {
     }
 
     public List<Student> getAllStudents(){
-        List<Student> students = studentsMap.values().stream().collect(Collectors.toList());
-        return students;
+        return studentsMap.values().stream().collect(Collectors.toList());
+
     }
 
     public List<Course> getAllCourses(){
-        List<Course> courses = coursesMap.values().stream().collect(Collectors.toList());
-        return courses;
+        return coursesMap.values().stream().collect(Collectors.toList());
+
     }
 
 
