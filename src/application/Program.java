@@ -41,6 +41,7 @@ public class Program {
                         handleDeleteCourse(sc, academicService);
                         break;
                     case 5:
+                        enrollStudentInCourse(sc, academicService);
                         break;
                     case 6:
                         break;
@@ -66,6 +67,8 @@ public class Program {
 
         sc.close();
     }
+
+
     private static void printMenu(){
         System.out.println("\n--- Operations Menu ---\n");
 
@@ -89,6 +92,38 @@ public class Program {
         System.out.println("0. Exit");
 
         System.out.print("\nChoose an option: ");
+    }
+
+    private static Student pickStudentById(Scanner sc, AcademicService academicService) throws NonExistentIdException {
+        System.out.print("Type the student ID: ");
+        int studentId = sc.nextInt();
+        sc.nextLine();
+        return academicService.findAndVerifyStudentId(studentId);
+    }
+
+    private static Course pickCourseById(Scanner sc, AcademicService academicService) throws NonExistentIdException{
+        System.out.print("Type the course ID: ");
+        int courseId = sc.nextInt();
+        sc.nextLine();
+        return academicService.findAndVerifyCourseId(courseId);
+    }
+
+    private static int confirm(Scanner sc){
+        int confirmation = -1;
+        while (true) {
+            System.out.print("--Press 1-to confirm/0-to cancel: ");
+            confirmation = sc.nextInt();
+            if(confirmation == 0 || confirmation == 1){
+                sc.nextLine();
+                return confirmation;
+            }
+            System.out.println("--Invalid digit");
+        }
+    }
+
+    private static void pressEnterToContinue(Scanner sc){
+        System.out.print("--Press ENTER to continue");
+        sc.nextLine();
     }
 
     private static void handleAddStudent(Scanner sc, AcademicService academicService){
@@ -141,35 +176,11 @@ public class Program {
         pressEnterToContinue(sc);
     }
 
-    private static void pressEnterToContinue(Scanner sc){
-        System.out.print("--Press ENTER to continue");
-        sc.nextLine();
-    }
-
-    private static Student pickStudentById(Scanner sc, AcademicService academicService) throws NonExistentIdException {
-        System.out.print("Type the student ID: ");
-        int studentId = sc.nextInt();
-        sc.nextLine();
-        return academicService.findAndVerifyStudentId(studentId);
-    }
-
-    private static Course pickCourseById(Scanner sc, AcademicService academicService) throws NonExistentIdException{
-        System.out.print("Type the course ID: ");
-        int courseId = sc.nextInt();
-        sc.nextLine();
-        return academicService.findAndVerifyCourseId(courseId);
-    }
-
-    private static int confirm(Scanner sc){
-        int confirmation = -1;
-        while (true) {
-            System.out.print("--Press 1-to confirm/0-to cancel: ");
-            confirmation = sc.nextInt();
-            if(confirmation == 0 || confirmation == 1){
-                sc.nextLine();
-                return confirmation;
-            }
-            System.out.println("--Invalid digit");
-        }
+    private static void enrollStudentInCourse(Scanner sc, AcademicService academicService)throws NonExistentIdException{
+        Student student = pickStudentById(sc, academicService);
+        Course course = pickCourseById(sc, academicService);
+        academicService.enrollStudent(student, course);
+        System.out.println("Student successfully enrolled in course!");
+        pressEnterToContinue(sc);
     }
 }
