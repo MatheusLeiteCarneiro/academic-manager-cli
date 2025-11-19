@@ -11,9 +11,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Program {
-    private static int studentIdCount = 1;
-    private static int courseIdCount = 1;
-
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
@@ -154,10 +151,8 @@ public class Program {
         System.out.print("Full name: ");
         String studentName = sc.nextLine();
         verifyBlankName(studentName);
-        Student newStudent = new Student(studentIdCount, studentName);
-        academicService.addStudent(newStudent);
+        Student newStudent = academicService.addStudent(studentName);
         System.out.println("Student: " + newStudent + " successfully registered!");
-        studentIdCount++;
         pressEnterToContinue(sc);
     }
 
@@ -166,16 +161,14 @@ public class Program {
         System.out.print("Name: ");
         String courseName = sc.nextLine();
         verifyBlankName(courseName);
-        Course newCourse = new Course(courseIdCount, courseName);
-        academicService.addCourse(newCourse);
+        Course newCourse = academicService.addCourse(courseName);
         System.out.println("Course: " + newCourse + " successfully registered!");
-        courseIdCount++;
         pressEnterToContinue(sc);
     }
 
     private static void handleDeleteStudent(Scanner sc, AcademicService academicService) throws NonExistentIdException {
         Student student = pickStudentById(sc, academicService);
-        System.out.println("Delete student:" + student);
+        System.out.println("Delete student: " + student);
         boolean confirmation = confirm(sc);
         if (confirmation) {
             academicService.deleteAStudent(student);
@@ -186,13 +179,11 @@ public class Program {
 
     private static void handleDeleteCourse(Scanner sc, AcademicService academicService) throws NonExistentIdException {
         Course course = pickCourseById(sc, academicService);
-        System.out.println("Delete student:" + course);
+        System.out.println("Delete course: " + course);
         boolean confirmation = confirm(sc);
         if (confirmation) {
             academicService.deleteACourse(course);
             System.out.println("Course successfully deleted!");
-        } else {
-            System.out.println("Operation canceled!");
         }
         pressEnterToContinue(sc);
     }
