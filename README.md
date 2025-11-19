@@ -69,3 +69,21 @@ The project was built focusing on **data integrity** and **clean code**, applyin
 * **Java Stream API:** Utilizing Streams for declarative data querying (filtering and reporting).
 * **Data Integrity & Validation:** Implementation of Custom Exceptions to enforce business rules.
 
+---
+
+## 🏁 How to Run
+1.  Open your **Terminal** (or `Git Bash` on Windows).
+2.  Navigate to the directory (folder) where you want to save the project.
+3.  **Copy and paste** the following command into your terminal and press **Enter**:
+
+    ```bash
+    git clone https://github.com/MatheusLeiteCarneiro/academic-manager-cli
+    ```
+    *(This will create a new folder named `academic-manager-cli` with all the project files.)*
+
+4. Open the project in your Java IDE.
+5. Locate and run the `Program.java` file (under `src/application/Program.java`).
+
+---
+
+Author: **Matheus Leite Carneiro**
