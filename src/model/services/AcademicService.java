@@ -24,10 +24,30 @@ public class AcademicService {
         return coursesMap;
     }
 
-
     public Map<Student, Set<Course>> getEnrollments() {
         return enrollments;
     }
 
+    public void addStudent(Student student){
+        studentsMap.put(student.getId(), student);
+        enrollments.put(student, new HashSet<>());
+    }
+
+    public void addCourse(Course course){
+        coursesMap.put(course.getId(), course);
+    }
+
+    public void enrollStudent(Integer studentId, Integer courseId) throws NonExistentId {
+        Student student = studentsMap.get(studentId);
+        Course course = coursesMap.get(courseId);
+        if(student == null ){
+            throw new NonExistentId("This student ID does not exist");
+        }
+        if(course == null){
+            throw new NonExistentId("This course ID does not exist");
+        }
+        Set<Course> courseSet = enrollments.get(student);
+        courseSet.add(course);
+    }
 
 }
