@@ -2,7 +2,7 @@ package model.services;
 
 import model.entities.Course;
 import model.entities.Student;
-import model.exceptions.NonExistentId;
+import model.exceptions.NonExistentIdException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,21 +31,22 @@ public class AcademicService {
         return enrollments;
     }
 
-    public Student findAndVerifyStudentId(Integer studentId) throws NonExistentId {
+    public Student findAndVerifyStudentId(Integer studentId) throws NonExistentIdException {
         Student student = studentsMap.get(studentId);
         if(student == null ){
-            throw new NonExistentId("This student ID does not exist");
+            throw new NonExistentIdException("This student ID does not exist");
         }
         return student;
     }
 
-    public Course findAndVerifyCourseId(Integer courseId) throws NonExistentId {
+    public Course findAndVerifyCourseId(Integer courseId) throws NonExistentIdException {
         Course course = coursesMap.get(courseId);
         if(course == null){
-            throw new NonExistentId("This course ID does not exist");
+            throw new NonExistentIdException("This course ID does not exist");
         }
         return course;
     }
+
 
     public void addStudent(Student student){
         studentsMap.put(student.getId(), student);
@@ -56,39 +57,39 @@ public class AcademicService {
         coursesMap.put(course.getId(), course);
     }
 
-    public void enrollStudent(Integer studentId, Integer courseId) throws NonExistentId {
+    public void enrollStudent(Integer studentId, Integer courseId) throws NonExistentIdException {
         Student student = findAndVerifyStudentId(studentId);
         Course course = findAndVerifyCourseId(courseId);
         Set<Course> courseSet = enrollments.get(student);
         courseSet.add(course);
     }
 
-    public List<Course> getCoursesFromAStudent(Integer studentId) throws NonExistentId {
+    public List<Course> getCoursesFromAStudent(Integer studentId) throws NonExistentIdException {
         Student student = findAndVerifyStudentId(studentId);
         Set<Course> courses = enrollments.get(student);
         return courses.stream().collect(Collectors.toList());
     }
 
-    public List<Student> getStudentsFromACourse(Integer courseId) throws NonExistentId{
+    public List<Student> getStudentsFromACourse(Integer courseId) throws NonExistentIdException {
         Course course = findAndVerifyCourseId(courseId);
         Set<Student> allStudents = enrollments.keySet();
         Stream<Student> studentsOnCourse = allStudents.stream().filter(student -> enrollments.get(student).contains(course));
         return studentsOnCourse.collect(Collectors.toList());
     }
 
-    public void removeAStudentFromACourse(Integer studentId,Integer courseId) throws NonExistentId {
+    public void removeAStudentFromACourse(Integer studentId,Integer courseId) throws NonExistentIdException {
         Student student = findAndVerifyStudentId(studentId);
         Course course = findAndVerifyCourseId(courseId);
         enrollments.get(student).remove(course);
     }
 
-    public void deleteAStudent(Integer studentId) throws NonExistentId {
+    public void deleteAStudent(Integer studentId) throws NonExistentIdException {
         Student student = findAndVerifyStudentId(studentId);
         studentsMap.remove(studentId);
         enrollments.remove(student);
     }
 
-    public void deleteACourse(Integer courseId) throws NonExistentId{
+    public void deleteACourse(Integer courseId) throws NonExistentIdException {
         Course course = findAndVerifyCourseId(courseId);
         coursesMap.remove(courseId);
         enrollments.keySet().forEach(student -> enrollments.get(student).remove(course));
