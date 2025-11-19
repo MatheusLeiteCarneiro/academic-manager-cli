@@ -82,6 +82,14 @@ public class AcademicService {
         enrollments.remove(student);
     }
 
+    public void deleteACourse(Integer courseId) throws NonExistentId{
+        Course course = findAndVerifyCourseId(courseId);
+        coursesMap.remove(courseId);
+        enrollments.keySet().forEach(student -> enrollments.get(student).remove(course));
+    }
+
+
+
 
 
 
