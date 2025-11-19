@@ -178,9 +178,10 @@ public class Program {
         pressEnterToContinue(sc);
     }
 
-    private static void enrollStudentInCourse(Scanner sc, AcademicService academicService)throws NonExistentIdException{
+    private static void enrollStudentInCourse(Scanner sc, AcademicService academicService) throws NonExistentIdException, EnrollmentException {
         Student student = pickStudentById(sc, academicService);
         Course course = pickCourseById(sc, academicService);
+        academicService.verifyIfStudentIsNotInCourse(student, course);
         academicService.enrollStudent(student, course);
         System.out.println("Student successfully enrolled in course!");
         pressEnterToContinue(sc);

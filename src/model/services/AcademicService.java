@@ -55,6 +55,13 @@ public class AcademicService {
        }
     }
 
+    public void verifyIfStudentIsNotInCourse(Student student, Course course) throws EnrollmentException {
+        Set<Course> courses = enrollments.get(student);
+        if(courses.contains(course)){
+            throw new EnrollmentException("This student is already enrolled to this course");
+        }
+    }
+
     public void addStudent(Student student){
         studentsMap.put(student.getId(), student);
         enrollments.put(student, new HashSet<>());
