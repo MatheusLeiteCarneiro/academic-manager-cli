@@ -5,6 +5,7 @@ import model.entities.Student;
 import model.exceptions.NonExistentId;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +29,22 @@ public class AcademicService {
         return enrollments;
     }
 
+    public Student findAndVerifyStudentId(Integer studentId) throws NonExistentId {
+        Student student = studentsMap.get(studentId);
+        if(student == null ){
+            throw new NonExistentId("This student ID does not exist");
+        }
+        return student;
+    }
+
+    public Course findAndVerifyCourseId(Integer courseId) throws NonExistentId {
+        Course course = coursesMap.get(courseId);
+        if(course == null){
+            throw new NonExistentId("This course ID does not exist");
+        }
+        return course;
+    }
+
     public void addStudent(Student student){
         studentsMap.put(student.getId(), student);
         enrollments.put(student, new HashSet<>());
@@ -38,16 +55,11 @@ public class AcademicService {
     }
 
     public void enrollStudent(Integer studentId, Integer courseId) throws NonExistentId {
-        Student student = studentsMap.get(studentId);
-        Course course = coursesMap.get(courseId);
-        if(student == null ){
-            throw new NonExistentId("This student ID does not exist");
-        }
-        if(course == null){
-            throw new NonExistentId("This course ID does not exist");
-        }
+        Student student = findAndVerifyStudentId(studentId);
+        Course course = findAndVerifyCourseId(courseId);
         Set<Course> courseSet = enrollments.get(student);
         courseSet.add(course);
     }
+
 
 }
