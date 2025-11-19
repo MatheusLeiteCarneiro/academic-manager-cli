@@ -59,6 +59,7 @@ public class Program {
                         handleShowAllCourses(sc, academicService);
                         break;
                     case 0:
+                        System.out.println("Operations finished!");
                         break;
                     default:
                         break;
