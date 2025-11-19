@@ -2,6 +2,7 @@ package model.services;
 
 import model.entities.Course;
 import model.entities.Student;
+import model.exceptions.EnrolledException;
 import model.exceptions.NonExistentIdException;
 
 import java.util.HashSet;
@@ -47,6 +48,12 @@ public class AcademicService {
         return course;
     }
 
+    public void verifyIfStudentIsInCourse(Student student, Course course) throws EnrolledException {
+       Set<Course> courses = enrollments.get(student);
+       if(!courses.contains(course)){
+           throw new EnrolledException("This student is not enrolled to this course");
+       }
+    }
 
     public void addStudent(Student student){
         studentsMap.put(student.getId(), student);
@@ -77,9 +84,10 @@ public class AcademicService {
         return studentsOnCourse.collect(Collectors.toList());
     }
 
-    public void removeAStudentFromACourse(Integer studentId,Integer courseId) throws NonExistentIdException {
+    public void removeAStudentFromACourse(Integer studentId,Integer courseId) throws NonExistentIdException, EnrolledException {
         Student student = findAndVerifyStudentId(studentId);
         Course course = findAndVerifyCourseId(courseId);
+        verifyIfStudentIsInCourse(student,course);
         enrollments.get(student).remove(course);
     }
 
