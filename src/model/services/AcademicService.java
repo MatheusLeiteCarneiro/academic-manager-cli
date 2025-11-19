@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class AcademicService {
     private Map<Integer, Student> studentsMap;
@@ -60,6 +61,13 @@ public class AcademicService {
         Set<Course> courseSet = enrollments.get(student);
         courseSet.add(course);
     }
+
+    public List<Course> getCoursesFromAStudent(Integer studentId) throws NonExistentId {
+        Student student = findAndVerifyStudentId(studentId);
+        Set<Course> courses = enrollments.get(student);
+        return courses.stream().collect(Collectors.toList());
+    }
+
 
 
 }
