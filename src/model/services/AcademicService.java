@@ -2,6 +2,7 @@ package model.services;
 
 import model.entities.Course;
 import model.entities.Student;
+import model.exceptions.BlankNameException;
 import model.exceptions.EnrollmentException;
 import model.exceptions.NonExistentIdException;
 
@@ -20,6 +21,12 @@ public class AcademicService {
         studentsMap = new HashMap<>();
         coursesMap = new HashMap<>();
         enrollments = new HashMap<>();
+    }
+
+    private static void verifyBlankName(String name) throws BlankNameException {
+        if (name.isBlank()) {
+            throw new BlankNameException("The name can't be blank");
+        }
     }
 
     public Student findAndVerifyStudentId(Integer studentId) throws NonExistentIdException {
@@ -52,17 +59,19 @@ public class AcademicService {
         }
     }
 
-    public Student addStudent(String studentName) {
+    public Student addStudent(String studentName) throws BlankNameException {
+        verifyBlankName(studentName);
         Student student = new Student(studentIdCount, studentName);
-        studentIdCount ++;
+        studentIdCount++;
         studentsMap.put(student.getId(), student);
         enrollments.put(student, new HashSet<>());
         return student;
     }
 
-    public Course addCourse(String courseName) {
+    public Course addCourse(String courseName) throws BlankNameException {
+        verifyBlankName(courseName);
         Course course = new Course(courseIdCount, courseName);
-        courseIdCount ++;
+        courseIdCount++;
         coursesMap.put(course.getId(), course);
         return course;
     }

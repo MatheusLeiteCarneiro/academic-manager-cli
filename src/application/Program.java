@@ -104,12 +104,6 @@ public class Program {
         System.out.print("\nChoose an operation: ");
     }
 
-    private static void verifyBlankName(String name) throws BlankNameException {
-        if (name.isBlank()) {
-            throw new BlankNameException("The name can't be blank");
-        }
-    }
-
     private static Student pickStudentById(Scanner sc, AcademicService academicService) throws NonExistentIdException {
         System.out.print("Type the student ID: ");
         int studentId = sc.nextInt();
@@ -150,7 +144,6 @@ public class Program {
         System.out.println("Student data:");
         System.out.print("Full name: ");
         String studentName = sc.nextLine();
-        verifyBlankName(studentName);
         Student newStudent = academicService.addStudent(studentName);
         System.out.println("Student: " + newStudent + " successfully registered!");
         pressEnterToContinue(sc);
@@ -160,7 +153,6 @@ public class Program {
         System.out.println("Course data:");
         System.out.print("Name: ");
         String courseName = sc.nextLine();
-        verifyBlankName(courseName);
         Course newCourse = academicService.addCourse(courseName);
         System.out.println("Course: " + newCourse + " successfully registered!");
         pressEnterToContinue(sc);
