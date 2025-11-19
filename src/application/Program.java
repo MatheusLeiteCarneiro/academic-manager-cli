@@ -6,10 +6,7 @@ import model.exceptions.EnrollmentException;
 import model.exceptions.NonExistentIdException;
 import model.services.AcademicService;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Program {
@@ -24,11 +21,11 @@ public class Program {
 
         int operation = -1;
         while (operation != 0) {
-            printMenu();
-            operation = sc.nextInt();
-            sc.nextLine();
-            System.out.println();
             try {
+                printMenu();
+                operation = sc.nextInt();
+                sc.nextLine();
+                System.out.println();
 
                 switch (operation) {
                     case 1:
@@ -66,6 +63,12 @@ public class Program {
             }
             catch (NonExistentIdException | EnrollmentException e){
                 System.out.println(e.getMessage());
+                pressEnterToContinue(sc);
+            }
+            catch (InputMismatchException e){
+                System.out.println("Invalid digit, type a number!");
+                sc.nextLine();
+                operation = -1;
                 pressEnterToContinue(sc);
             }
         }
