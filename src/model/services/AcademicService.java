@@ -5,10 +5,7 @@ import model.entities.Student;
 import model.exceptions.EnrollmentException;
 import model.exceptions.NonExistentIdException;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,6 +15,9 @@ public class AcademicService {
     private Map<Student, Set<Course>> enrollments;
 
     public AcademicService() {
+        studentsMap = new HashMap<>();
+        coursesMap = new HashMap<>();
+        enrollments = new HashMap<>();
     }
 
     public Map<Integer, Student> getStudentsMap() {
