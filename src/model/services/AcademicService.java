@@ -76,6 +76,15 @@ public class AcademicService {
         return studentsOnCourse.collect(Collectors.toList());
     }
 
+    public void deleteAStudent(Integer studentId) throws NonExistentId {
+        Student student = findAndVerifyStudentId(studentId);
+        studentsMap.remove(studentId);
+        enrollments.remove(student);
+    }
+
+
+
+
 
 
 }
