@@ -48,7 +48,7 @@ public class AcademicService {
         return course;
     }
 
-    private void verifyIfStudentIsInCourse(Student student, Course course) throws EnrollmentException {
+    public void verifyIfStudentIsInCourse(Student student, Course course) throws EnrollmentException {
        Set<Course> courses = enrollments.get(student);
        if(!courses.contains(course)){
            throw new EnrollmentException("This student is not enrolled to this course");
@@ -81,7 +81,6 @@ public class AcademicService {
     }
 
     public void removeAStudentFromACourse(Student student,Course course) throws EnrollmentException {
-        verifyIfStudentIsInCourse(student,course);
         enrollments.get(student).remove(course);
     }
 
