@@ -196,7 +196,7 @@ public class Program {
         boolean confirmation = confirm(sc);
         if (confirmation) {
             academicService.removeAStudentFromACourse(student, course);
-            System.out.println("Student" + student.getName() + " successfully removed from the course " + course.getName() + "!");
+            System.out.println("Student " + student.getName() + " successfully removed from the course " + course.getName() + "!");
         }
         pressEnterToContinue(sc);
     }
@@ -212,7 +212,7 @@ public class Program {
     private static void handleShowAllStudentsFromACourse(Scanner sc, AcademicService academicService) throws NonExistentIdException {
         Course course = pickCourseById(sc, academicService);
         List<Student> students = academicService.getStudentsFromACourse(course).stream().sorted(Comparator.comparing(Student::getId)).collect(Collectors.toList());
-        System.out.println("Students list for the course " + course.getName() + ": ");
+        System.out.println("Students list for the course " + course.getName() + ":");
         students.forEach(System.out::println);
         pressEnterToContinue(sc);
     }
